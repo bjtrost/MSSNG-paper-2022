@@ -1,0 +1,64 @@
+#### Calculating ASD PRS in MSSNG, SSC & 1000 Genomes
+
+#### The summary statistics were taken from Grove et al and includes only the Danish meta-GWAS (Cases: 13,076 and Controls: 22,664) which has no overlap with MSSNG or SSC
+
+# N of SNPs: 9,000,353 in Chr1-22
+
+### Lifted from HG19 to HG38
+### Excluded ambiguous SNPs
+### Keept only SNPs with MAF>0.05 (in unaffected individuals) and INFO>0.9
+### Excluded SNPs in the HLA region (Chr6:25-35Mb)
+### Included only SNPs that are available in MSSNG, SSC and 1000 Genomes
+
+# N of SNPs left: 4,565,160
+
+###################
+#### Clumping 
+###################
+
+##### Tool: plink/1.9
+
+##### Input Files:
+########## Genotype data in PLINK binary format for all subjects (MSSNG, SSC and 1000 Genomes) including all 4,565,160 SNPs >> MSSNG_SSC_1000Genomes  
+########## Summary statistics file for the same 4,565,160 SNPs >> iPSYCH_Final_For_MSSNG_SSC_1000Genomes_4565160_SNPs.txt including "SNP" and "P" columns corresponding to SNP ID and P-value, respectively
+
+##### Output Files:
+########## MSSNG_SSC_1000Genomes_Clump_R2_1.clumped
+
+plink \
+    --bfile MSSNG_SSC_1000Genomes \
+    --clump-p1 1 \
+	--clump-p2 1 \
+    --clump-r2 0.1 \
+    --clump-kb 500 \
+    --clump iPSYCH_Final_For_MSSNG_SSC_1000Genomes_4565160_SNPs.txt \
+    --clump-snp-field SNP \
+    --clump-field P \
+    --out MSSNG_SSC_1000Genomes_Clump_R2_1
+	
+#### N of clumped SNPs = 92,369 
+
+
+###################
+#### Calculate PRS
+###################
+
+##### Tool: plink/1.9
+
+##### Input Files:
+########## Genotype data in PLINK binary format for all subjects (MSSNG, SSC and 1000 Genomes) including all 4,565,160 SNPs >> MSSNG_SSC_1000Genomes
+########## Summary statistics file >> iPSYCH_Final_For_MSSNG_SSC_1000Genomes_4565160_SNPs.txt with column 1: SNP ID, Column 2: Effect Allele and column 6: Weight
+########## P_Range_List_10.txt for p-value thresholding (p <0.1)
+########## iPSYCH_SNP_4565160_P.txt >> A text file with 2 columns: SNPs and their corresponding p-values
+########## MSSNG_SSC_1000Genomes_Clumped_SNPs_R2_1.txt >> A text file with one column including list of clumped SNPs
+
+##### Output Files:
+########## MSSNG_SSC_1000Genomes_PRS_R2_1_Sum_Center.1.profile including PRS values 
+
+plink \
+    --bfile MSSNG_SSC_1000Genomes \
+    --score iPSYCH_Final_For_MSSNG_SSC_1000Genomes_4565160_SNPs.txt 1 2 6 header sum center \
+    --q-score-range P_Range_List_10.txt iPSYCH_SNP_4565160_P.txt \
+    --extract MSSNG_SSC_1000Genomes_Clumped_SNPs_R2_1.txt \
+    --out MSSNG_SSC_1000Genomes_PRS_R2_1_Sum_Center
+	

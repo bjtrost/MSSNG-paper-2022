@@ -1,0 +1,32 @@
+**Usage:**
+
+Usage:
+            run_snvAnnotation.pl -i|input <input-file> -f|config <config-file> -m|type <run-type> -o|outdir <work-dir> -r|threads <number of core> 
+        
+                
+            <input-file> can be vcf,mastervar or plain text format(1-based coordinates)
+            <run-type>  can be 'm' for mastervar , 'u' for vcf with normalization and 't' for text-format(annovar-format).
+                        
+                
+            Optional arguments:
+              --post-type|c <int>           Post-processing type ; 1=GATK wgs , 2=HAS wgs, 3.7=GATK exome , 0=None (Default 0)
+              --genome|g <string>           Reference genome file. This is required for vcf normalization. Use the same genome file used for variant calls.
+              --logdir|l <string>           Directory for log files. This is useful if you are using /tmp or localdisk as work-dir (-o) for which you can monitor the progress 
+                                            of the pipeline via contents in this directory.
+              --cov-file|v  <string>        Coverage file(dp) file exome annotation.
+              --dng-file|b  <string>        vcf-file(s) from Denovogear. For multiple probands, provide DNG files as comma-separated.
+              --exome-target|t <string>     Target bed file for exome annotation.
+              --keep_temp|k                 Keep raw annotation output. 
+              --somatic|s                   If the input is from somatic variant calling (beta)
+              --pgx|x                       Process PGx vcf file; Use this option if the input vcf file includes ref calls
+              --out_config                  file contain output columns to be displayed, text file with one column per row.
+              --no_hgmd                     skip HGMD annotations (otherwise perform annotation with professional HGMD database)
+              --splicing_threshold          distance between splicing variants and exon/intron boundary (default: 15)
+              --neargene                    distance threshold to define upstream/downstream of a gene ( default 1000)              
+              --no_bgzip|q                  flag to avoid bgzipping and indexing FINAL annotation 
+              --check-ref                   Similar to bcftools norm --check-ref, only 'w', 'e' or 's' allowed (default 'e')
+              --hgvs                        use HGVS format for exonic annotation (c.122C>T rather than c.C122T) (annovar gene-based annotation)
+              --exonicsplicing              report exonic variants near exon/intron boundary as 'exonic;splicing' variants
+              --help|h                      This help info
+          
+              Required perl5 and special perl modules. Pipeline many annovar and custom databases. Contact us for more details.

@@ -1,0 +1,9 @@
+This folder contains scripts used to preprocess data and perform the burden analysis and transmission test of noncoding variants
+Scripts in this folder are.
+1. getDenovoFeatures.R - preprocess MSSNG de novo variants and transform the count into a matrix.
+2. getDenovoFeaturesSSC.R - preprocess SSC de novo variants and transform the count into matrix.
+3. denovo_test.R - perform multiple burden analyses including for both MSSNG and SSC cohorts.
+4. getFeaturesSingletons.R - preprocess MSSNG private variants for transmission test.
+5. getFeaturesSSCSingletons.R - preprocess SSC private variants for transmission test.
+6. transformFeature_and_test_singletons.R - perform transmission test for MSSNG cohort.
+7. transformFeatureSSC_and_test_singletons.R - perform transmission test for SSC cohort.
